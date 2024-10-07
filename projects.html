@@ -1,21 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projects - CleanWater</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
     <link rel="stylesheet" href="../styles/style.css">
 </head>
+
 <body>
     <header>
-        
         <h1>CleanWater</h1>
-
-       
         <nav>
             <a href="../index.html">Home</a>
             <a href="projects.html">Projects</a>
@@ -30,29 +26,39 @@
             <h2>Ongoing Projects</h2>
             <ul id="projects-list"></ul>
         </section>
+
+        <section id="map-section">
+            <h2>Project Locations</h2>
+            <div id="map"></div>
+        </section>
     </main>
     <footer>
         <p>&copy; 2024 CleanWater. All rights reserved.</p>
     </footer>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="../scripts/main.js"></script>
-    <div id="map" style="height: 500px;"></div>
-<script>
-  var map = L.map('map').setView([51.505, -0.09], 13);
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([51.505, -0.09], 13);
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors'
-  }).addTo(map);
+        // Add the OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
 
-  fetch('../data/projects.json')
-    .then(response => response.json())
-    .then(data => {
-      data.projects.forEach(project => {
-        L.marker([project.latitude, project.longitude])
-          .addTo(map)
-          .bindPopup(`<b>${project.name}</b><br>${project.description}`);
-      });
-    })
-    .catch(error => console.error('Error fetching project data:', error));
-</script>
+        // Fetch project data and add markers
+        fetch('../data/projects.json')
+            .then(response => response.json())
+            .then(data => {
+                data.projects.forEach(project => {
+                    L.marker([project.latitude, project.longitude])
+                        .addTo(map)
+                        .bindPopup(`<b>${project.name}</b><br>${project.description}`);
+                });
+            })
+            .catch(error => console.error('Error fetching project data:', error));
+    </script>
 </body>
+
 </html>
